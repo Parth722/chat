@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/socket.io/socket.io.js"></script>
+    <title>Chat</title>
+    <style>
+        form {
+            position: fixed;
+            bottom: 10px;
+            width: 60%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            padding: 10px;
+        }
+
+        form input {
+            border: 0;
+            padding: 10px;
+            width: 100%;
+            font-size: 18px;
+            font-family: montserrat;
+            border-radius: 10px;
+            background: #ccc;
+        }
+
+        .messages {
+            padding: 0;
+            position: relative;
+            width: 60%;
+            display: flex;
+            left: 50%;
+            transform: translateX(-50%);
+            list-style-type: none;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .messages li {
+            padding: 10px;
+            border: 0px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: montserrat;
+        }
+
+        .messages li:nth-child(odd) {
+            background: #eee;
+        }
+            
+        form button {
+            padding: 15px;
+            margin: 0px 20px;
+            border: 0px;
+            background: black;
+            color: white;
+            font-family: montserrat;
+            border-radius: 7px;
+        }
+
+        form button:hover {
+            cursor: pointer;
+            background-color: rgb(202, 202, 202);
+            color: black;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <ul class="messages">
+
+        </ul>
+        <form>
+            <input type="text" class="input"/>
+            <button>Send</button>
+        </form>  
+    </div>
+</body>
+<script>
+    const form = document.querySelector('form');;
+    const input = document.querySelector('.input');
+    const messages = document.querySelector('.messages');
+    const socket = io();
+    const username = prompt('Username: ');
+
+    //calling addMessage when socket identifies chatMessage event.
+    socket.on('chatMessage', (data) => {
+        addMessage(data.username + ': ' + data.message);
+    })
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        addMessage("You: " + input.value);
+
+        socket.emit('chatMessage', {
+            username: username,
+            message: input.value
+        });
+    
+        input.value = "";
+    })
+
+    //function for adding new messages.
+    const addMessage = (message) => {
+        const li = document.createElement('li');
+        li.innerHTML = message;
+        messages.appendChild(li);
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    addMessage('Chatting as ' + username + '.');
+</script>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.Io chatApp</title>
+    <style>
+        h1 {
+            font-family: montserrat;
+            padding: 20px;
+        }
+
+        form .username {
+            padding: 10px;
+            margin: 0px 20px;
+        }
+
+        form .submit {
+            padding: 10px;
+            background: black;
+            color: white;
+            border: 0;
+        }
+
+        form .submit:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hey there, welcome to this chat app.</h1>
+    <form action="/create-user" method="POST">
+        <input type="text" class="username" placeholder="Username" name="Username" />
+        <input type="submit" class="submit" placeholder="Add" name="Add" value="Add" />
+    </form>
+</body>
+</html>
